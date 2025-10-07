@@ -11,7 +11,20 @@ export class UserController {
   }
 
   @Get(':id')
-  getUserById(@Param('id') id: string): IUser {
-    return this.userService.findById(Number(id));
+  getUserById(@Param('id') id: string) {
+    const user = this.userService.findById(Number(id));
+    if (!user) {
+      return {
+        status: 'success',
+        message: `User with ID ${id} not found`,
+        data: null,
+      };
+    }
+
+    return {
+      status: 'success',
+      message: 'User found',
+      data: user,
+    };
   }
 }
